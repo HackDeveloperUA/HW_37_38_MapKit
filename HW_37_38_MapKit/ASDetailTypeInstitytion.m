@@ -30,6 +30,7 @@
                             @"Bowling",    @"Night Club",  @"Park"];
     
 
+    
     NSDictionary* tmpDict = @{@"Restaurant"  :@"ASRestaurant.png",
                               @"Bistro"      : @"ASBistro.png",
                               @"Cafe"        : @"ASCafe.png",
@@ -42,6 +43,23 @@
                               @"Bowling"     : @"ASBowling.png",
                               @"Night Club"   : @"ASNightClub.png",
                               @"Park"        : @"ASPark.png"};
+    
+    /*
+    NSDictionary* tmpDict = @{@"Restaurant"  :@"ASRestaurant128.png",
+                              @"Bistro"      : @"ASBistro128.png",
+                              @"Cafe"        : @"ASCafe128.png",
+                              @"Pizzeria"    : @"ASPizzeria128.png",
+                              @"Barbecue"    : @"ASBarbecue128.png",
+                              @"Pub"         : @"ASPub128.png",
+                              @"Bar"         : @"ASBar128.png",
+                              @"Theater"     : @"ASTheater128.png",
+                              @"Billiards"   : @"ASBilliards128.png",
+                              @"Bowling"     : @"ASBowling128.png",
+                              @"Night Club"   : @"ASNightClub128.png",
+                              @"Park"        : @"ASPark128.png"};*/
+
+    
+    
     
     self.arrayNamesType = tmpArray;
     self.dictNameImage = tmpDict;
@@ -110,8 +128,9 @@
 
 
     NSString* keyImage  = [NSString stringWithFormat:@"%@",[self.arrayNamesType objectAtIndex:indexPath.row]];
-    NSString* nameImage = [NSString stringWithFormat:@"TypesInstitution/%@",[self.dictNameImage valueForKey:keyImage]];
-    
+  //  NSString* nameImage = [NSString stringWithFormat:@"TypesInstitution\%@",[self.dictNameImage valueForKey:keyImage]];
+    NSString* nameImage = [NSString stringWithFormat:@"%@",[self.dictNameImage valueForKey:keyImage]];
+
     cell.textLabel.text   =  [self.arrayNamesType objectAtIndex:indexPath.row];
 
     cell.imageView.image  =  [UIImage imageNamed:nameImage];

@@ -36,7 +36,7 @@
 
       self.title    = [NSString stringWithFormat:@"%@",nameBuild];
       self.subtitle = [NSString stringWithFormat:@"Рейтинг - %.2f",self.rating];
-      self.image    = [UIImage imageNamed:[NSString stringWithFormat:@"TypesInstitution/%@",nameImage]];
+      self.image    = [UIImage imageNamed:[NSString stringWithFormat:@"%@",nameImage]];
       self.image    = [UIImage imageWithImage:self.image scaledToSize:CGSizeMake(48, 48)];
       self.arrayStudents      = [[NSMutableArray alloc] init];
       self.arrayOverlayCircle = [[NSMutableArray alloc] init];

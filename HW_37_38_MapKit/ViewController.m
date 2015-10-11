@@ -27,98 +27,66 @@
 @property (strong, nonatomic)  UIPopoverController*   popover;
 @property (strong, nonatomic)  CLGeocoder*            geoCoder;
 @property (assign, nonatomic)  CGPoint                locationLongTouchForMeetingPoint;
-
-
 @property (strong, nonatomic) ASMeetingPoint* currentMeetingPoint;
 @property (strong, nonatomic) ASStudent*      currentStudent;
-
 @property (strong, nonatomic) CustomRadiusTableView*     testView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl* mapTypeSegmentedControl;
 
-
 @property (strong, nonatomic) MKDirections* directions;
-
 @end
 
-
-
-
 @implementation ViewController
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
- 
-
     [self showUserLocation:self.mapView andLocationManager:self.locationManager];
     
- 
-
     UIBarButtonItem* zoomButton =
     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                                   target:self action:@selector(actionShowAll:)];
 
-    
     UIBarButtonItem* roadToMeetingButton =
     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                   target:self action:@selector(actionDirection:)];
 
     self.navigationItem.rightBarButtonItems = @[zoomButton, roadToMeetingButton];
-
-    
      //self.navigationItem.rightBarButtonItem = zoomButton;
      self.geoCoder = [[CLGeocoder alloc] init];
 
-    
      UILongPressGestureRecognizer* longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap:)];
      longTapGesture.minimumPressDuration = 1.0f;
     
-     [self.mapView addGestureRecognizer:longTapGesture];
-    
+    [self.mapView addGestureRecognizer:longTapGesture];
     self.currentMeetingPoint = [[ASMeetingPoint alloc] init];
     self.currentStudent      = [[ASStudent      alloc] init];
     
-
- 
     CGRect tmpRect = CGRectMake(CGRectGetMinX(self.view.bounds)+5, CGRectGetMinY(self.view.bounds)+10,
                                 CGRectGetWidth(self.view.bounds)/2, CGRectGetHeight(self.view.bounds)/8);
-    
-
     CustomRadiusTableView* radiusView = [[CustomRadiusTableView alloc] initWithFrame:tmpRect];
-
     tmpRect.size = CGSizeMake (CGRectGetWidth(self.view.bounds)/2, CGRectGetHeight(radiusView.labelRadius1.frame)*3.5f);
     radiusView.frame = tmpRect;
 
     self.testView = radiusView;
-
     [self.testView setNeedsDisplay];
     [self.mapView  addSubview:self.testView];
 
 }
-
 -(void) dealloc {
-    
+
     if ([self.geoCoder isGeocoding]) {
         [self.geoCoder cancelGeocode];
     }
-    
     if ([self.directions isCalculating]) {
         [self.directions cancel];
     }
 }
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
-
 #pragma mark - MKMapViewDelegate
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
@@ -184,7 +152,10 @@ return nil;
                              
                              
                              //[meetingPoint.arrayPolyline removeAllObjects];
-                              meetingPoint.arrayOverlayCircle = nil;
+                             
+                             meetingPoint.arrayOverlayCircle = nil;
+                             
+                             
                              //[meetingPoint.arrayOverlayCircle removeAllObjects];
                              
                            
@@ -218,10 +189,10 @@ return nil;
                                 
                                  //[self.currentMeetingPoint.arrayPolyline removeAllObjects];
                                  
-                                 if ([[[meetingPoint.arrayStudents objectAtIndex:0]polyline] isEqual:nil]) {
-                                     [self actionDirection:nil];
+                               //  if ([[[meetingPoint.arrayStudents objectAtIndex:0]polyline] isEqual:nil]) {
+                                [self actionDirection:nil];
 
-                                 }
+                                 //}
                                  
                                  //[self actionDirection:nil];
                                  [self addOverlayCircleWithCoordinate:meetingPoint];
@@ -862,7 +833,8 @@ return nil;
         
         MKPolylineRenderer* renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         renderer.lineWidth = 2.f;
-        renderer.strokeColor = [UIColor redColor];
+       // renderer.strokeColor = [UIColor redColor];
+        renderer.strokeColor = [self randomRGBColor];
         renderer.lineCap = 2.5f;
         
         return renderer;
@@ -1094,7 +1066,14 @@ bool nextBool(double probability)
       otherButtonTitles:nil] show];
 }
 
-
+- (UIColor *)randomRGBColor {
+    
+    CGFloat r = (CGFloat)(arc4random() % 256) / 255;
+    CGFloat g = (CGFloat)(arc4random() % 256) / 255;
+    CGFloat b = (CGFloat)(arc4random() % 256) / 255;
+    
+    return [UIColor colorWithRed:r green:g blue:b alpha:1];
+}
 
 
 @end
